@@ -22,9 +22,9 @@ ParkingSpot bikeSpots[MAX_BIKES];
 ParkingSpot jeepSpots[MAX_JEEPS];
 
 // Global variables for pricing and revenue
-double carPricePerHour = 10.0;
-double bikePricePerHour = 5.0;
-double jeepPricePerHour = 15.0;
+double carPricePerHour = 200.0;
+double bikePricePerHour = 100.0;
+double jeepPricePerHour = 150.0;
 double totalDailyRevenue = 0.0;
 
 // Initializes all parking spots to be available

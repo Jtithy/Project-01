@@ -112,13 +112,13 @@ int main();
 
 int isValidName(const char *name){
     if(strlen(name) == 0 || strlen(name) > NAME_LEN){
-        printf("                      Invalid name.\n");
+        printf("Invalid name.\n");
         return 0;
     }
     else{
         for(int i = 0; name[i] != '\0'; i++){
             if(!isalpha(name[i]) && !isspace(name[i])){
-                printf("                      Name can only contain letters and spaces.\n");
+                printf("Name can only contain letters and spaces.\n");
                 return 0;
             }
         }
@@ -128,18 +128,18 @@ int isValidName(const char *name){
 
 int isValidPhoneNumber(const char *phone){
     if(strlen(phone) != 11){
-        printf("                      Phone number must be exactly 11 digits.\n");
+        printf("Phone number must be exactly 11 digits.\n");
         return 0;
     }
     else {
         for(int i = 0; i < 11; i++){
             if(!isdigit(phone[i])){
-                printf("                      Phone number must contain only digits.\n");
+                printf("Phone number must contain only digits.\n");
                 return 0;
             }
         }
         if(phone[0] != '0' || phone[1] != '1'){
-            printf("                      Phone number must start with '01'.\n");
+            printf("Phone number must start with '01'.\n");
             return 0;
         }
     }
@@ -148,7 +148,7 @@ int isValidPhoneNumber(const char *phone){
 
 int isValidEmail(const char *email){
     if(strstr(email, "@gmail.com") == NULL){
-        printf("                      Email must contain '@gmail.com'.\n");
+        printf("Email must contain '@gmail.com'.\n");
         return 0;
     }
     return 1;
@@ -156,7 +156,7 @@ int isValidEmail(const char *email){
 
 int isValidPassword(const char *password){
     if(strlen(password)< 8){
-        printf("                      Password must be at least 8 characters long.\n");
+        printf("Password must be at least 8 characters long.\n");
         return 0;
     }
     return 1;
@@ -204,7 +204,7 @@ void initializeDefaultData(){
 void saveAllData(){
     FILE *file = fopen(DATA_FILE, "a");
     if(file == NULL){
-        printf("                      Error opening data.\n");
+        printf("Error opening data.\n");
         return;
 
         // Write Admins
@@ -425,39 +425,39 @@ void loadAllData(){
 
 void registerAdmin(){
     if(systemData.numAdmins >= MAX_ADMINS) {
-        printf("                      Maximum number of admins reached.\n");
+        printf("Maximum number of admins reached.\n");
         return;
     }
 
     Admin newAdmin;
     char temp_email[EMAIL_LEN];
     char temp_phone[CONTACT_LEN];
-    printf("\n               --- Admin Registration ---\n");
+    printf("\n--- Admin Registration ---\n");
 
     // Admin name
-    printf("                      Enter Admin Name: ");
+    printf("Enter Admin Name: ");
     fgets(newAdmin.name, sizeof(newAdmin.name), stdin);
     if (strlen(newAdmin.name) > 0 && newAdmin.name[strlen(newAdmin.name) - 1] == '\n') {
     newAdmin.name[strlen(newAdmin.name) - 1] = '\0';
     }
     if (!isValidName(newAdmin.name)) {
-        printf("                      Invalid name.\n");
+        printf("Invalid name.\n");
         return;
     }
 
     // Admin email
-    printf("                      Enter Admin Email: ");
+    printf("Enter Admin Email: ");
     fgets(temp_email, sizeof(temp_email), stdin);
     if(!isValidEmail(temp_email)) {
-        printf("                      Invalid email format.\n");
+        printf("Invalid email format.\n");
         return;
     }
 
     // Admin phone
-    printf("                      Enter Admin Phone: ");
+    printf("Enter Admin Phone: ");
     fgets(temp_phone, sizeof(temp_phone), stdin);
     if(!isValidPhoneNumber(temp_phone)) {
-        printf("                      Invalid phone number format.\n");
+        printf("Invalid phone number format.\n");
         return;
     }
 
@@ -465,27 +465,27 @@ void registerAdmin(){
     strcpy(newAdmin.email, temp_email);
     strcpy(newAdmin.phoneNumber, temp_phone);
     systemData.admins[systemData.numAdmins++] = newAdmin;
-    printf("                      Admin registered successfully.\n");
+    printf("Admin registered successfully.\n");
 }
 
 int loginAdmin(){
     char name[NAME_LEN];
     char password[PASSWORD_LEN];
-    printf("\n                ------- Admin Login -------\n");
+    printf("\n------- Admin Login -------\n");
 
     // Get admin name and password
-    printf("                      Enter Admin Name: ");
+    printf("Enter Admin Name: ");
     fgets(name, sizeof(name), stdin);
-    printf("                      Enter Password: ");
+    printf("Enter Password: ");
     fgets(password, sizeof(password), stdin);
 
     for(int i = 0; i < systemData.numAdmins; i++) {
         if(strcmp(systemData.admins[i].name, name) == 0 && strcmp(systemData.admins[i].password, password) == 0) {
-            printf("                      Login successful! Welcome, %s.\n", systemData.admins[i].name);
+            printf("Login successful! Welcome, %s.\n", systemData.admins[i].name);
             return 1;
         }
     }
-    printf("                      Login failed! Invalid name or password.\n");
+    printf("Login failed! Invalid name or password.\n");
     return 0;
 }
 
@@ -497,33 +497,33 @@ void recordEntry(){
     int i, spotFound = 0;
     time_t currentTime;
 
-    printf("\n                      --- Record Vehicle Entry ---\n");
-    printf("                            Select Vehicle Type:\n");
-    printf("                                1. Car\n");
-    printf("                                2. Bike\n");
-    printf("                                3. Jeep\n");
-    printf("                             Enter your choice: ");
+    printf("\n--- Record Vehicle Entry ---\n");
+    printf("Select Vehicle Type:\n");
+    printf("1. Car\n");
+    printf("2. Bike\n");
+    printf("3. Jeep\n");
+    printf("Enter your choice: ");
     scanf("%d", &vehicleType);
 
     if(vehicleType < 1 || vehicleType > 3) {
-        printf("                      Invalid vehicle type choice.\n");
+        printf("Invalid vehicle type choice.\n");
         return;
     }
-    printf("                      Enter License Plate: ");
+    printf("Enter License Plate: ");
     scanf("%s", licensePlate);
-    printf("                      Enter Driver Name: ");
+    printf("Enter Driver Name: ");
     fgets(driverName, sizeof(driverName), stdin);
     if (strlen(driverName) > 0 && driverName[strlen(driverName) - 1] == '\n') {
         driverName[strlen(driverName) - 1] = '\0';
     }
     if (!isValidName(driverName)) {
-        printf("                      Invalid name.\n");
+        printf("Invalid name.\n");
         return;
     }
-    printf("                      Enter Driver Contact: ");
+    printf("Enter Driver Contact: ");
     fgets(driverContact, sizeof(driverContact), stdin);
     if(!isValidPhoneNumber(driverContact)) {
-        printf("                      Invalid phone number format.\n");
+        printf("Invalid phone number format.\n");
         return;
     }
 
@@ -539,14 +539,14 @@ void recordEntry(){
                     strcpy(systemData.carSpots[i].driverName, driverName);
                     strcpy(systemData.carSpots[i].driverContact, driverContact);
                     systemData.carSpots[i].entrTime = currentTime;
-                    printf("                      Car parked at spot C%d. Entry time: %s", systemData.carSpots[i].spotID, ctime(&currentTime));
-                    printf("                      Price per hour: %.2lf\n", systemData.carPricePerHour);
+                    printf("Car parked at spot C%d. Entry time: %s", systemData.carSpots[i].spotID, ctime(&currentTime));
+                    printf("Price per hour: %.2lf\n", systemData.carPricePerHour);
                     spotFound = 1;
                     break;
                 }
             }
             if (!spotFound) {
-                printf("                      No available car spots.\n");
+                printf("No available car spots.\n");
             }
             break;
         // Record entry for Bike
@@ -558,14 +558,14 @@ void recordEntry(){
                     strcpy(systemData.bikeSpots[i].driverName, driverName);
                     strcpy(systemData.bikeSpots[i].driverContact, driverContact);
                     systemData.bikeSpots[i].entrTime = currentTime;
-                    printf("                      Bike parked at spot B%d. Entry time: %s", systemData.bikeSpots[i].spotID, ctime(&currentTime));
-                    printf("                      Price per hour: %.2lf\n", systemData.bikePricePerHour);
+                    printf("Bike parked at spot B%d. Entry time: %s", systemData.bikeSpots[i].spotID, ctime(&currentTime));
+                    printf("Price per hour: %.2lf\n", systemData.bikePricePerHour);
                     spotFound = 1;
                     break;
                 }
             }
             if (!spotFound) {
-                printf("                      No available bike spots.\n");
+                printf("No available bike spots.\n");
             }
             break;
         // Record entry for Jeep
@@ -577,18 +577,18 @@ void recordEntry(){
                     strcpy(systemData.jeepSpots[i].driverName, driverName);
                     strcpy(systemData.jeepSpots[i].driverContact, driverContact);
                     systemData.jeepSpots[i].entrTime = currentTime;
-                    printf("                      Jeep parked at spot J%d. Entry time: %s", systemData.jeepSpots[i].spotID, ctime(&currentTime));
-                    printf("                      Price per hour: %.2lf\n", systemData.jeepPricePerHour);
+                    printf("Jeep parked at spot J%d. Entry time: %s", systemData.jeepSpots[i].spotID, ctime(&currentTime));
+                    printf("Price per hour: %.2lf\n", systemData.jeepPricePerHour);
                     spotFound = 1;
                     break;
                 }
             }
             if (!spotFound) {
-                printf("                      No available jeep spots.\n");
+                printf("No available jeep spots.\n");
             }
             break;
         default:
-            printf("                      Invalid vehicle type choice.\n");
+            printf("Invalid vehicle type choice.\n");
     }
     saveAllData();
 }
@@ -600,9 +600,9 @@ void recordExit(){
     double durationInSeconds, durationInHours, totalCost = 0.0;
     Transaction transaction;
 
-    printf("\n                      --- Record Vehicle Exit ---\n");
+    printf("\n--- Record Vehicle Exit ---\n");
 
-    printf("                            Enter License Plate: ");
+    printf("Enter License Plate: ");
     fgets(licensePlate, sizeof(licensePlate), stdin);
 
     exitTime = time(NULL);
@@ -614,9 +614,9 @@ void recordExit(){
             durationInHours = durationInSeconds / 3600.0;
             totalCost = durationInHours * systemData.carPricePerHour;
 
-            printf("                      Car exited from spot C%d. Exit time: %s", systemData.carSpots[i].spotID, ctime(&exitTime));
-            printf("                      Duration: %.2lf hours\n", durationInHours);
-            printf("                      Total cost: %.2lf\n", totalCost);
+            printf("Car exited from spot C%d. Exit time: %s", systemData.carSpots[i].spotID, ctime(&exitTime));
+            printf("Duration: %.2lf hours\n", durationInHours);
+            printf("Total cost: %.2lf\n", totalCost);
 
             // Record transaction
             transaction.vehicleType = VEHICLE_TYPE_CAR;  // 1= Car
@@ -643,9 +643,9 @@ void recordExit(){
                 durationInHours = durationInSeconds / 3600.0;
                 totalCost = durationInHours * systemData.bikePricePerHour;
 
-                printf("                      Bike exited from spot B%d. Exit time: %s", systemData.bikeSpots[i].spotID, ctime(&exitTime));
-                printf("                      Duration: %.2lf hours\n", durationInHours);
-                printf("                      Total cost: %.2lf\n", totalCost);
+                printf("Bike exited from spot B%d. Exit time: %s", systemData.bikeSpots[i].spotID, ctime(&exitTime));
+                printf("Duration: %.2lf hours\n", durationInHours);
+                printf("Total cost: %.2lf\n", totalCost);
 
                 // Record transaction
                 transaction.vehicleType = VEHICLE_TYPE_BIKE;  // 2= Bike
@@ -673,9 +673,9 @@ void recordExit(){
                 durationInHours = durationInSeconds / 3600.0;
                 totalCost = durationInHours * systemData.jeepPricePerHour;
 
-                printf("                      Jeep exited from spot J%d. Exit time: %s", systemData.jeepSpots[i].spotID, ctime(&exitTime));
-                printf("                      Duration: %.2lf hours\n", durationInHours);
-                printf("                      Total cost: %.2lf\n", totalCost);
+                printf("Jeep exited from spot J%d. Exit time: %s", systemData.jeepSpots[i].spotID, ctime(&exitTime));
+                printf("Duration: %.2lf hours\n", durationInHours);
+                printf("Total cost: %.2lf\n", totalCost);
 
                 // Record transaction
                 transaction.vehicleType = VEHICLE_TYPE_JEEP;  // 3= Jeep
@@ -697,7 +697,7 @@ void recordExit(){
     }
 
     if(!vehicleFound) {
-        printf("                      No vehicle found with license plate: %s\n", licensePlate);
+        printf("No vehicle found with license plate: %s\n", licensePlate);
     }
 
     saveAllData();
@@ -706,12 +706,12 @@ void recordExit(){
 void listParkedVehicles(){
     int i;
     int foundVehicle = 0;
-    printf("\n                      --- List Parked Vehicles ---\n");
+    printf("\n--- List Parked Vehicles ---\n");
 
-    printf("                      Cars:\n");
+    printf("Cars:\n");
     for(i = 0; i < MAX_CARS; i++){
         if(systemData.carSpots[i].isOccupied) {
-            printf("                      Spot C%d: %s (Driver: %s, Contact: %s, Entry: %s)\n",
+            printf("Spot C%d: %s (Driver: %s, Contact: %s, Entry: %s)\n",
                    systemData.carSpots[i].spotID,
                    systemData.carSpots[i].licensePlate,
                    systemData.carSpots[i].driverName,
@@ -722,14 +722,14 @@ void listParkedVehicles(){
     }
 
     if(!foundVehicle) {
-        printf("                      No cars parked.\n");
+        printf("No cars parked.\n");
     }
     foundVehicle = 0; // Reset for next
 
-    printf("                      Bikes:\n");
+    printf("Bikes:\n");
     for(i = 0; i < MAX_BIKES; i++){
         if(systemData.bikeSpots[i].isOccupied) {
-            printf("                      Spot B%d: %s (Driver: %s, Contact: %s, Entry: %s)\n",
+            printf("Spot B%d: %s (Driver: %s, Contact: %s, Entry: %s)\n",
                    systemData.bikeSpots[i].spotID,
                    systemData.bikeSpots[i].licensePlate,
                    systemData.bikeSpots[i].driverName,
@@ -740,11 +740,11 @@ void listParkedVehicles(){
     }
 
     if(!foundVehicle) {
-        printf("                      No bikes parked.\n");
+        printf("No bikes parked.\n");
     }
     foundVehicle = 0; // Reset for next
 
-    printf("                      Jeeps:\n");
+    printf("Jeeps:\n");
     for(i = 0; i < MAX_JEEPS; i++){
         if(systemData.jeepSpots[i].isOccupied) {
             printf("                      Spot J%d: %s (Driver: %s, Contact: %s, Entry: %s)\n",
@@ -758,62 +758,62 @@ void listParkedVehicles(){
     }
 
     if(!foundVehicle) {
-        printf("                      No jeeps parked.\n");
+        printf("No jeeps parked.\n");
     }
-    printf("                      ----------------------\n");
+    printf("----------------------\n");
 }
 
 void displayAdminDetails(){
-    printf("\n                      --- Admin Details ---\n");
+    printf("\n--- Admin Details ---\n");
     if(systemData.numAdmins == 0) {
-        printf("                      No admin registered yet.\n");
+        printf("No admin registered yet.\n");
         return;
     }
     for(int i = 0; i < systemData.numAdmins; i++) {
-        printf("                      Admin %d:\n", i + 1);
-        printf("                      Name: %s\n", systemData.admins[i].name);
-        printf("                      Phone: %s\n", systemData.admins[i].phoneNumber);
-        printf("                      Email: %s\n", systemData.admins[i].email);
-        printf("                      ----------------------\n");
+        printf("Admin %d:\n", i + 1);
+        printf("Name: %s\n", systemData.admins[i].name);
+        printf("Phone: %s\n", systemData.admins[i].phoneNumber);
+        printf("Email: %s\n", systemData.admins[i].email);
+        printf("----------------------\n");
     }
 }
 
 void parkingRate(){
     double newCarRate, newBikeRate, newJeepRate;
 
-    printf("\n                      --- Configure Parking Rates ---\n");
+    printf("\n--- Configure Parking Rates ---\n");
 
     //Car Rate
-    printf("                      Current Car Rate: %.2lf per hour\n", systemData.carPricePerHour);
-    printf("                      Enter new car rates:\n");
+    printf("Current Car Rate: %.2lf per hour\n", systemData.carPricePerHour);
+    printf("Enter new car rates:\n");
     scanf("%lf", &newCarRate);
     if (newCarRate >= 0) {
         systemData.carPricePerHour = newCarRate;
     } else {
-        printf("                      Invalid rate.\n");
+        printf("Invalid rate.\n");
     }
 
     //Bike Rate
-    printf("                      Current Bike Rate: %.2lf per hour\n", systemData.bikePricePerHour);
-    printf("                      Enter new bike rates:\n");
+    printf("Current Bike Rate: %.2lf per hour\n", systemData.bikePricePerHour);
+    printf("Enter new bike rates:\n");
     scanf("%lf", &newBikeRate);
     if (newBikeRate >= 0) {
         systemData.bikePricePerHour = newBikeRate;
     } else {
-        printf("                      Invalid rate.\n");
+        printf("Invalid rate.\n");
     }
 
     //Jeep Rate
-    printf("                      Current Jeep Rate: %.2lf per hour\n", systemData.jeepPricePerHour);
-    printf("                      Enter new jeep rates:\n");
+    printf("Current Jeep Rate: %.2lf per hour\n", systemData.jeepPricePerHour);
+    printf("Enter new jeep rates:\n");
     scanf("%lf", &newJeepRate);
     if (newJeepRate >= 0) {
         systemData.jeepPricePerHour = newJeepRate;
     } else {
-        printf("                      Invalid rate.\n");
+        printf("Invalid rate.\n");
     }
 
-    printf("                      Parking rates updated successfully.\n");
+    printf("Parking rates updated successfully.\n");
     saveAllData();
 }
 
@@ -826,7 +826,7 @@ void calculateDailyRevenue(){
     int currentYear = localTime->tm_year + 1900;
 
     // Calculate daily revenue
-    printf("\n                      --- Daily Revenue Summary ---\n");
+    printf("\n--- Daily Revenue Summary ---\n");
 
     for (int i = 0; i < systemData.numTransactions; i++){
         struct tm *local_exit = localtime(&systemData.transactions[i].exitTime);
@@ -836,30 +836,30 @@ void calculateDailyRevenue(){
             currentDailyRevenue += systemData.transactions[i].cost;
         }
     }
-    printf("                      Daily Revenue for %02d/%02d/%04d: %.2lf\n",
+    printf("Daily Revenue for %02d/%02d/%04d: %.2lf\n",
            currentDay, currentMonth, currentYear, currentDailyRevenue);
-    printf("                      --------------------------------\n");
+    printf("--------------------------------\n");
 }
 
 void viewCustomerDetails(){
     if(systemData.numCustomers == 0){
-        printf("                      No customer data available.\n");
+        printf("No customer data available.\n");
         return;
     }
 
-    printf("\n                      --- All Customer Details ---\n");
+    printf("\n--- All Customer Details ---\n");
     for(int i = 0; i < systemData.numCustomers; i++){
-        printf("                           License Plate: %s\n", systemData.customers[i].licensePlate);
-        printf("                           Name: %s\n", systemData.customers[i].name);
-        printf("                           Contact: %s\n", systemData.customers[i].contact);
-        printf("                     --------------------------\n");
+        printf("License Plate: %s\n", systemData.customers[i].licensePlate);
+        printf("Name: %s\n", systemData.customers[i].name);
+        printf("Contact: %s\n", systemData.customers[i].contact);
+        printf("--------------------------\n");
     }
 }
 
 void searchCustomerDetails(){
     char searchPlate[LICENSE_PLATE_LEN];
-    printf("\n                      --- Search Customer by License Plate ---\n");
-    printf("                            Enter License Plate to search: ");
+    printf("\n--- Search Customer by License Plate ---\n");
+    printf("Enter License Plate to search: ");
     scanf("%s", searchPlate);
 
     Customer *foundCustomer = NULL;
@@ -871,51 +871,51 @@ void searchCustomerDetails(){
     }
 
     if(foundCustomer != NULL){
-        printf("\n                      Customer Found:\n");
-        printf("                        Vehicle Type: %s\n", foundCustomer->vehicleType);
-        printf("                        License Plate: %s\n", foundCustomer->licensePlate);
-        printf("                        Name: %s\n", foundCustomer->name);
-        printf("                        Contact: %s\n", foundCustomer->contact);
-        printf("                      --------------------\n");
+        printf("\nCustomer Found:\n");
+        printf("Vehicle Type: %s\n", foundCustomer->vehicleType);
+        printf("License Plate: %s\n", foundCustomer->licensePlate);
+        printf("Name: %s\n", foundCustomer->name);
+        printf("Contact: %s\n", foundCustomer->contact);
+        printf("--------------------\n");
     } else {
-        printf("                      No customer found with license plate: %s\n", searchPlate);
+        printf("No customer found with license plate: %s\n", searchPlate);
     }
 }
 
 void displayParkingStatus(){
     int i;
-    printf("\n                      --- Current Parking Status ---\n");
-    
-    printf("                      Cars:\n");
+    printf("\n--- Current Parking Status ---\n");
+
+    printf("Cars:\n");
     for (i = 0; i < MAX_CARS; i++) {
         if(systemData.carSpots[i].isOccupied) {
-            printf("                           License Plate: %s\n", systemData.carSpots[i].licensePlate);
-            printf("                           Driver Name: %s\n", systemData.carSpots[i].driverName);
-            printf("                           Contact: %s\n", systemData.carSpots[i].driverContact);
-            printf("                           Parking Spot: %d\n", systemData.carSpots[i].spotID);
-            printf("                     --------------------------\n");
+            printf("License Plate: %s\n", systemData.carSpots[i].licensePlate);
+            printf("Driver Name: %s\n", systemData.carSpots[i].driverName);
+            printf("Contact: %s\n", systemData.carSpots[i].driverContact);
+            printf("Parking Spot: %d\n", systemData.carSpots[i].spotID);
+            printf("--------------------------\n");
         }
     }
 
     printf("                      Bikes:\n");
     for (i = 0; i < MAX_BIKES; i++) {
         if(systemData.bikeSpots[i].isOccupied) {
-            printf("                           License Plate: %s\n", systemData.bikeSpots[i].licensePlate);
-            printf("                           Driver Name: %s\n", systemData.bikeSpots[i].driverName);
-            printf("                           Contact: %s\n", systemData.bikeSpots[i].driverContact);
-            printf("                           Parking Spot: %d\n", systemData.bikeSpots[i].spotID);
-            printf("                     --------------------------\n");
+            printf("License Plate: %s\n", systemData.bikeSpots[i].licensePlate);
+            printf("Driver Name: %s\n", systemData.bikeSpots[i].driverName);
+            printf("Contact: %s\n", systemData.bikeSpots[i].driverContact);
+            printf("Parking Spot: %d\n", systemData.bikeSpots[i].spotID);
+            printf("--------------------------\n");
         }
     }
 
-    printf("                      Jeeps:\n");
+    printf("Jeeps:\n");
     for (i = 0; i < MAX_JEEPS; i++) {
         if(systemData.jeepSpots[i].isOccupied) {
-            printf("                           License Plate: %s\n", systemData.jeepSpots[i].licensePlate);
-            printf("                           Driver Name: %s\n", systemData.jeepSpots[i].driverName);
-            printf("                           Contact: %s\n", systemData.jeepSpots[i].driverContact);
-            printf("                           Parking Spot: %d\n", systemData.jeepSpots[i].spotID);
-            printf("                     --------------------------\n");
+            printf("License Plate: %s\n", systemData.jeepSpots[i].licensePlate);
+            printf("Driver Name: %s\n", systemData.jeepSpots[i].driverName);
+            printf("Contact: %s\n", systemData.jeepSpots[i].driverContact);
+            printf("Parking Spot: %d\n", systemData.jeepSpots[i].spotID);
+            printf("--------------------------\n");
         }
     }
 }
@@ -936,12 +936,12 @@ void displayEmptySpots(){
         if (!systemData.jeepSpots[i].isOccupied) emptyJeeps++;
     }
 
-    printf("\n                      --- Total Empty Spots ---\n");
-    printf("                            Empty Car Spots: %d/%d\n", emptyCars, MAX_CARS);
-    printf("                            Empty Bike Spots: %d/%d\n", emptyBikes, MAX_BIKES);
-    printf("                            Empty Jeep Spots: %d/%d\n", emptyJeeps, MAX_JEEPS);
-    printf("                            Total Empty Spots: %d\n", emptyCars + emptyBikes + emptyJeeps);
-    printf("                        -------------------------\n");
+    printf("\n--- Total Empty Spots ---\n");
+    printf("Empty Car Spots: %d/%d\n", emptyCars, MAX_CARS);
+    printf("Empty Bike Spots: %d/%d\n", emptyBikes, MAX_BIKES);
+    printf("Empty Jeep Spots: %d/%d\n", emptyJeeps, MAX_JEEPS);
+    printf("Total Empty Spots: %d\n", emptyCars + emptyBikes + emptyJeeps);
+    printf("-------------------------\n");
 }
 
 void displayTotalAmount(){
@@ -949,20 +949,20 @@ void displayTotalAmount(){
     for(int i = 0; i < systemData.numTransactions; i++){
         totalAmount += systemData.transactions[i].cost;
     }
-    printf("\n                      --- Total Amount Collected ---\n");
-    printf("                            Total Amount: %.2lf\n", totalAmount);
-    printf("                        ------------------------------\n");
+    printf("\n--- Total Amount Collected ---\n");
+    printf("Total Amount: %.2lf\n", totalAmount);
+    printf("------------------------------\n");
 }
 
 void adminMenu(){
     int choice;
     do {
-        printf("\n                            --- Admin Menu ---\n");
-        printf("                            1. Admin Details\n");
-        printf("                            2. Configure Parking Rates\n");
-        printf("                            3. Display Total Amount Collected\n");
-        printf("                            4. Main Menu\n");
-        printf("                            Enter your choice: ");
+        printf("\n--- Admin Menu ---\n");
+        printf("1. Admin Details\n");
+        printf("2. Configure Parking Rates\n");
+        printf("3. Display Total Amount Collected\n");
+        printf("4. Main Menu\n");
+        printf("Enter your choice: ");
         scanf("%d", &choice);
 
         switch(choice) {
@@ -976,10 +976,10 @@ void adminMenu(){
                 displayTotalAmount();
                 break;
             case 4:
-                printf("                            Exiting Admin Menu...\n");
+                printf("Exiting Admin Menu...\n");
                 break;
             default:
-                printf("                            Invalid choice. Please try again.\n");
+                printf("Invalid choice. Please try again.\n");
         }
     } while(choice != 4);
 }
@@ -987,12 +987,12 @@ void adminMenu(){
 void vehicleMenu(){
     int choice;
     do {
-        printf("\n                      --- Vehicle Panel ---\n");
-        printf("                      1. Record Vehicle Entry\n");
-        printf("                      2. Record Vehicle Exit\n");
-        printf("                      3. List Parked Vehicles\n");
-        printf("                      4. Back to Main Menu\n");
-        printf("                      Enter your choice: ");
+        printf("\n--- Vehicle Panel ---\n");
+        printf("1. Record Vehicle Entry\n");
+        printf("2. Record Vehicle Exit\n");
+        printf("3. List Parked Vehicles\n");
+        printf("4. Back to Main Menu\n");
+        printf("Enter your choice: ");
         scanf("%d", &choice);
 
         switch (choice) {
@@ -1008,7 +1008,7 @@ void vehicleMenu(){
             case 4:
                 break;
             default:
-                printf("                      Invalid choice. Please try again.\n");
+                printf("Invalid choice. Please try again.\n");
         }
     } while (choice != 4);
 }
@@ -1016,11 +1016,11 @@ void vehicleMenu(){
 void customerMenu(){
     int choice;
     do {
-        printf("\n                      --- Customer Info ---\n");
-        printf("                      1. View All Customer Details\n");
-        printf("                      2. Search Customer by License Plate\n");
-        printf("                      3. Back to Main Menu\n");
-        printf("                      Enter your choice: ");
+        printf("\n--- Customer Info ---\n");
+        printf("1. View All Customer Details\n");
+        printf("2. Search Customer by License Plate\n");
+        printf("3. Back to Main Menu\n");
+        printf("Enter your choice: ");
         scanf("%d", &choice);
 
         switch (choice) {
@@ -1033,7 +1033,7 @@ void customerMenu(){
             case 3:
                 break;
             default:
-                printf("                      Invalid choice. Please try again.\n");
+                printf("Invalid choice. Please try again.\n");
         }
     } while (choice != 3);
 }
@@ -1041,11 +1041,11 @@ void customerMenu(){
 void slotManagementMenu(){
     int choice;
     do {
-        printf("\n                      --- Slot Management ---\n");
-        printf("                      1. Display Parking Status\n");
-        printf("                      2. Display Total Empty Slots\n");
-        printf("                      3. Back to Main Menu\n");
-        printf("                      Enter your choice: ");
+        printf("\n--- Slot Management ---\n");
+        printf("1. Display Parking Status\n");
+        printf("2. Display Total Empty Slots\n");
+        printf("3. Back to Main Menu\n");
+        printf("Enter your choice: ");
         scanf("%d", &choice);
 
         switch (choice) {
@@ -1058,7 +1058,7 @@ void slotManagementMenu(){
             case 3:
                 break;
             default:
-                printf("                      Invalid choice. Please try again.\n");
+                printf("Invalid choice. Please try again.\n");
         }
     } while (choice != 3);
 }
@@ -1068,13 +1068,13 @@ int main() {
     loadAllData();
 
     do {
-        printf("\n         ................................................................\n");
-        printf("           ------ Welcome to Parking Lot Management System ------\n");
-        printf("           ................................................................\n");
-        printf("                      1. Register as Admin\n");
-        printf("                      2. Log in as Admin\n");
-        printf("                      3. Exit\n");
-        printf("                      Enter your choice: ");
+        printf("\n................................................................\n");
+        printf("------ Welcome to Parking Lot Management System ------\n");
+        printf("................................................................\n");
+        printf("1. Register as Admin\n");
+        printf("2. Log in as Admin\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
         scanf("%d", &mainChoice);
 
         switch (mainChoice) {
@@ -1085,15 +1085,15 @@ int main() {
                 if (loginAdmin()) {
                     int loggedInChoice;
                     do {
-                        printf("\n                   --- Admin Menu ---\n");
-                        printf("                  ...........................\n");
-                        printf("                       1. Admin Panel\n");
-                        printf("                       2. Vehicle Panel\n");
-                        printf("                       3. Customer Info\n");
-                        printf("                       4. Slot Management\n");
-                        printf("                       5. Total Revenue (All Time)\n");
-                        printf("                       6. Log out\n");
-                        printf("                      Enter your choice: ");
+                        printf("\n--- Admin Menu ---\n");
+                        printf("...........................\n");
+                        printf("1. Admin Panel\n");
+                        printf("2. Vehicle Panel\n");
+                        printf("3. Customer Info\n");
+                        printf("4. Slot Management\n");
+                        printf("5. Total Revenue (All Time)\n");
+                        printf("6. Log out\n");
+                        printf("Enter your choice: ");
                         scanf("%d", &loggedInChoice);
 
                         switch (loggedInChoice) {
@@ -1113,19 +1113,19 @@ int main() {
                                 displayTotalAmount();
                                 break;
                             case 6:
-                                printf("                      Logging out from admin session.\n");
+                                printf("Logging out from admin session.\n");
                                 break;
                             default:
-                                printf("                      Invalid choice. Please try again.\n");
+                                printf("Invalid choice. Please try again.\n");
                         }
                     } while (loggedInChoice != 6);
                 }
                 break;
             case 3:
-                printf("                      Exiting program. Goodbye!\n");
+                printf("Exiting program. Goodbye!\n");
                 break;
             default:
-                printf("                      Invalid choice. Please try again.\n");
+                printf("Invalid choice. Please try again.\n");
         }
     } while (mainChoice != 3);
 
